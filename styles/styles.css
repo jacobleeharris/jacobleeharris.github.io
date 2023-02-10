@@ -1,0 +1,13 @@
+/*
+TODO: Make navigation bar "float" by having a rounded border
+less than the size of the web page
+*/
+.img-responsive,
+.thumbnail > img,
+.thumbnail a > img,
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
