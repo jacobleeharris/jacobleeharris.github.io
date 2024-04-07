@@ -1,0 +1,40 @@
+---
+layout: post
+title: "Welcome to my blog!"
+date: 2024-04-07 14:35:00 -0600
+categories: introduction devlog jekyll
+---
+Ahem... is this thing on?
+
+Hello and welcome!
+
+### Personal Introduction
+My name is Jacob Harris. I am an intermediate Java programmer (hobby), a computer nerd, and a cool guy (if you ask me anyways). This blog serves as an introduction to all things tech-wise I do and is not intended to be anything professional.
+
+Just a computer nerd geeking out with anything that ticks, if you get my drift.
+
+### Computer specs
+- OS: Windows 11 / Arch Linux
+- Motherboard: Lincs 843B
+- CPU: Intel i5-8400
+- GPU: 
+    - Integrated: Intel UHD 630
+    - Dedicated: AMD Radeon RX 550
+- Memory: 12 GB DDR4-2666
+- Storage:
+    - 1 TB M.2 PCIe-3.1 SSD
+    - 1 TB Seagate PS4 Game Drive
+    - 512 GB TEAMGROUP SSD
+- PSU: 310 W SFF (Gold) Full range 115V/230V
+    - 90% efficiency
+
+### Interests
+- Java
+- C/C++
+- HTML, CSS, JS
+- Linux
+- Graphic arts
+
+... and more!
+
+Anyways, that's enough about me. Have a look around and have a nice day!
