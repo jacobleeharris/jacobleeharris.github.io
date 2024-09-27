@@ -14,19 +14,20 @@ My name is Jacob Harris. I am an intermediate Java programmer (hobby), a compute
 Just a computer nerd geeking out with anything that ticks, if you get my drift.
 
 ### Computer specs
-- OS: Windows 11 / Arch Linux
-- Motherboard: Lincs 843B
-- CPU: Intel i5-8400
+- OS: Fedora Linux
+- Motherboard: GIGABYTE B650 EAGLE AX
+- CPU: AMD Ryzen 7 7700
 - GPU: 
-    - Integrated: Intel UHD 630
+    - Integrated: AMD Raphael
     - Dedicated: AMD Radeon RX 550
-- Memory: 12 GB DDR4-2666
+    - Dedicated: NVIDIA GT 730 (for pass-through purposes)
+- Memory: 32 GB DDR5-5600 MHz
 - Storage:
     - 1 TB M.2 PCIe-3.1 SSD
     - 1 TB Seagate PS4 Game Drive
     - 512 GB TEAMGROUP SSD
-- PSU: 310 W SFF (Gold) Full range 115V/230V
-    - 90% efficiency
+- PSU: 650 W Corsair RM650
+    - 80+ Gold Efficiency
 
 ### Interests
 - Java
