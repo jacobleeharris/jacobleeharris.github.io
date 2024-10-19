@@ -19,13 +19,11 @@ Just a computer nerd geeking out with anything that ticks, if you get my drift.
 - CPU: AMD Ryzen 7 7700
 - GPU: 
     - Integrated: AMD Raphael
-    - Dedicated: AMD Radeon RX 550
-    - Dedicated: NVIDIA GT 730 (for pass-through purposes)
+    - Dedicated: GIGABYTE AMD Radeon RX 7600 XT
 - Memory: 32 GB DDR5-5600 MHz
 - Storage:
-    - 1 TB M.2 PCIe-3.1 SSD
+    - 1 TB Samsung 990 PRO PCIe 4.0
     - 1 TB Seagate PS4 Game Drive
-    - 512 GB TEAMGROUP SSD
 - PSU: 650 W Corsair RM650
     - 80+ Gold Efficiency
 
