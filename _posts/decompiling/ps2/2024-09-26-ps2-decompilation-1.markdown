@@ -1,6 +1,6 @@
 ---
 layout: post
-title: PS2 Decompilation part 1
+title: PS2 Decompilation Pt. 1
 date: 2024-09-26 15:51:00 -0600
 categories: introduction devlog decompilation
 ---
@@ -96,7 +96,6 @@ Copy the following code to the `Makefile` with a text editor:
 ```makefile
 TOOLCHAIN = mips64r5900el-ps2-elf
 CC        = $(TOOLCHAIN)-gcc
-CXX       = $(TOOLCHAIN)-g++
 
 all:      main.elf
 
