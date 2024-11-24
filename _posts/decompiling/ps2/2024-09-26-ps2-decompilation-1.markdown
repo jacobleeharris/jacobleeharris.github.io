@@ -9,136 +9,53 @@ Welcome!
 In this series of tutorials, we will be going over how to reverse engineer and decompile a PS2 binary back to its equivalent
 C or C++ code in a series of high-level and in-depth tutorials.
 
-This first tutorial will go over setting up a PS2 development toolchain to aid us in developing executables for the PS2
-and reverse engineering them with a set of tools that are freely available.
+This first tutorial will go over how to source the PS2 executable
+from an ISO rip and how to identify the compiler used in a PS2 binary.
 
-# Setting up the PS2 toolchain
-Note: A C/C++ toolchain must already be installed to continue with the following instructions.
+A list of PS2 executables with debug symbols not stripped (present in .STABS section) can be found
+[here](https://www.retroreversing.com/ps2-unstripped/).
 
-### Step 1: Install prerequisites
+## Ripping PS2 executable
+Most RIPs of PS2 Games come in the ISO format, though other formats such as CDVD, IMG, CSO, ZSO, and GZ images exist.
 
-The prerequisites for compiling the PS2 toolchain are:
-`gcc`, `make`, `cmake`, `patch`, `git`, `texinfo`, `flex`, `bison`, `gettext`, `wget`, `gsl`, `gmp`, `zlib`, `mpfr`, `mpc`
+This tutorial will only consider the ISO format though other formats can still be used.
 
-The README.MD provides instructions on how to install these packages for a variety of distributions.
+You can mount the ISO file as a drive without any special tools. The SYSTEM.CNF file tells the PS2 what executable to execute when loading the disk. An example SYSTEM.CNF file can be found below
 
-### Step 2: Setup environment variables
+```ini
+BOOT2 = cdrom0:\SLUS00000.123;1
+VER = 1.00
+VMODE = NTSC # can also be PAL
+```
+As you can see, the executable above is called SLUS00000.123. Some PS2 executables do not come with the `ELF` extension but are still valid `ELF` files.
 
-Copy the following code into `~/.bashrc`:
-```bash
-export PS2DEV=/usr/local/ps2dev
-export PS2SDK=$PS2DEV/ps2sdk
-export GSKIT=$PS2DEV/gsKit
-export PATH=$PATH:$PS2DEV/bin:$PS2DEV/ee/bin:$PS2DEV/iop/bin:$PS2DEV/dvp/bin:$PS2SDK/bin
+Running `file` on the executable should output the following:
+```
+SLUS00000.123: ELF 32-bit LSB executable, MIPS, MIPS-III version 1 (SYSV), statically linked, not stripped
 ```
 
-After modifying your login script, make sure to `source` the login script to ensure these
-environment variables are set. Alternatively, log out and log back in.
+Copy this executable to a working folder, the assets and the like will not be necessary for this portion of the decompilation stage.
 
-```bash
-source ~/.bashrc
-```
+## Identify the compiler
+Most PS2 binaries are compiled with Sony's proprietary GCC fork or with Metrowerks CodeWarrior (MWCC).
 
-Now create the standard directories (to which the toolchain will be installed into):
-```bash
-sudo mkdir -p $PS2DEV
-sudo chown -R $USER: $PS2DEV
-```
-The space between these arguments is intended and will not change the ownership of the directory without the space in
-between `$USER` and `$PS2DEV`.
+The easy method of identifying which compiler is used is to simply use
+[Detect-It-Easy](https://github.com/horsicq/DIE-engine/releases) (DIE) which is an open source file identifier which has signatures for detecting OS/compiler/packers from an executable.
 
+Dropping the executable into DIE should yield a similar result for GCC-compiled binaries:
+![Detect-It-Easy with GCC 2.x](/assets/images/decompiling/ps2/part_1/Detect-It-Easy-GCC-2.png)
 
-### Step 3: Clone the toolchain
+An alternative method is to pipe the output of `strings` from the executable into `grep` with `"gcc"` as the keyword which can be done with the following command:
+`strings SLUS_00000.123 | grep "gcc"`
+![Strings command output](/assets/images/decompiling/ps2/part_1/PS2-Strings-GCC.png)
 
-The toolchain is hosted on GitHub at the [ps2dev](https://github.com/ps2dev/ps2dev) repo.
+For MWCC-compiled binaries, the process unfortunately isn't as straight-forward as dropping the executable into DIE.
 
-Clone with the following command:
-```bash
-git clone https://github.com/ps2dev/ps2dev.git
-```
-This command will clone the `ps2dev` repository into a folder named `ps2dev` in the current directory.
+DIE will still return GCC as the compiler used even if MWCC was used, so the above output may not be correct for MWCC binaries.
 
-If you clone with SSH, the toolchain may fail to build as it can require a password to clone repos over SSH
-and input will not be allowed during build.
+If the `.comment` section was not stripped from the binary, you can simply dump the `.comment` section and check for the string: `MW CodeWarrior` which can be found at the beginning of the `.comment` section 
 
-Alternatively, you can use the Docker image provided on [Docker Hub](https://hub.docker.com/r/ps2dev/ps2dev).
-Using the Docker image allows you to build with the same exact OS, dependencies, and requirements on any OS
-without the need to manually configure build steps each time.
-
-On Linux-like systems, you can pull the Docker image with the following command:
-```bash
-sudo docker pull ps2dev/ps2dev
-```
-
-On Windows, you can download [Docker Desktop](https://www.docker.com/products/docker-desktop/) and issue the above command
-without the `sudo` portion in Command Prompt / PowerShell.
-
-After which, the Docker image will be cloned and built which will allow you to have a PS2DEV environment
-on any system with minimal steps.
-
-### Step 4: Compile the toolchain
-
-Navigate to the directory in which you cloned the `ps2dev` repo and open a terminal there.
-
-Execute the build-all shell script with the command `./build-all.sh`
-
-This may take a while! If the build fails, you can retry the build by re-executing the above command.
-
-# Compiling a test program
-
-Create a new folder named `test` in a destination of your choosing.
-This folder will be the project we are using to test our toolchain and ensure it is working as expected.
-
-Inside the folder, create a file named `Makefile` and a `main.c` source file which will hold the source code
-for our program.
-
-Copy the following code to the `Makefile` with a text editor:
-```makefile
-TOOLCHAIN = mips64r5900el-ps2-elf
-CC        = $(TOOLCHAIN)-gcc
-
-all:      main.elf
-
-main.elf: main.c
-    $(CC) main.c -o main.elf
-
-```
-
-In the `main.c` file, add the following code:
-```c
-#include <stdio.h>
-
-int main(int argc, char** argv) {
-    puts("Hello, World!");
-    
-    // Infinite loop
-    // This is to allow the user to monitor the output
-    // in the serial console of an emulator.
-    for (;;) {
-
-    }
-}
-```
-
-If you used the Docker container from before, you will need to start the Docker instance which can be done with the following command:
-```bash
-sudo docker run -it -w /test -v $(pwd):/test ps2dev/ps2dev sh
-```
-This will open the Docker image with the current working folder mounted at `/test` in the Docker image which allows you to share code
-written between the host and the container.
-
-Once inside the Docker container, you will need to add some dependencies to be able to build C/C++ code:
-```bash
-apk add make mpfr mpc mpc1
-```
-which is enough to install the proper dependencies.
-
-Afterwards, running `file` on `main.elf` should produce the following results if you used the correct toolchain:
-```bash
-main.elf: ELF 32-bit LSB executable, MIPS, N32 MIPS-III version 1 (SYSV), statically linked, with debug_info, not stripped
-```
-
-# Installing Ghidra
+## Installing Ghidra
 
 You can download the latest version of Ghidra from [GitHub releases](https://github.com/NationalSecurityAgency/ghidra/releases).
 After downloading the ZIP file, you can extract it in the destination of choice. I prefer using `/opt/` for installations
@@ -161,3 +78,8 @@ and the PS2 toolchain.
 
 In the next tutorial, we will finally begin reverse engineering our test program with Ghidra and identifying commonalities between PS2
 executables and how they work in practice.
+
+# Foreword
+In this tutorial, you learned how to source executables from an ISO rip, identify what compiler was used to build the executable, and install Ghidra with the Ghidra Emotion Engine Reloaded plugin, and are ready to start looking at a binary in Ghidra. In the next few tutorials, we will be setting up a matching decompilation using Splat
+
+And that is all for this tutorial! Hope to see you in the next.
