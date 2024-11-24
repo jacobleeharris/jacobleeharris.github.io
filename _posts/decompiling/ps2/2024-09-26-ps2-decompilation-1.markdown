@@ -47,6 +47,7 @@ Dropping the executable into DIE should yield a similar result for GCC-compiled 
 
 An alternative method is to pipe the output of `strings` from the executable into `grep` with `"gcc"` as the keyword which can be done with the following command:
 `strings SLUS_00000.123 | grep "gcc"`
+
 ![Strings command output](/assets/images/decompiling/ps2/part_1/PS2-Strings-GCC.png)
 
 For MWCC-compiled binaries, the process unfortunately isn't as straight-forward as dropping the executable into DIE.
