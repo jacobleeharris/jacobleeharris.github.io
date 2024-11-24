@@ -81,6 +81,6 @@ In the next tutorial, we will finally begin reverse engineering our test program
 executables and how they work in practice.
 
 # Foreword
-In this tutorial, you learned how to source executables from an ISO rip, identify what compiler was used to build the executable, and install Ghidra with the Ghidra Emotion Engine Reloaded plugin, and are ready to start looking at a binary in Ghidra. In the next few tutorials, we will be setting up a matching decompilation using Splat
+In this tutorial, you learned how to source executables from an ISO rip, identify what compiler was used to build the executable, and install Ghidra with the Ghidra Emotion Engine Reloaded plugin, and are ready to start looking at a binary in Ghidra. In the next few tutorials, we will be setting up a matching decompilation using Splat.
 
 And that is all for this tutorial! Hope to see you in the next.
