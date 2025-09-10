@@ -16,6 +16,8 @@ A list of PS2 executables with debug symbols not stripped (present in .STABS sec
 [here](https://www.retroreversing.com/ps2-unstripped/).
 
 ## Ripping PS2 executable
+Ripping a PS2 game is significantly easier than with other consoles. Any standard DVD/CD reader is capable of ripping the game. On Windows, the easiest software to do this with is ImgBurn and on Linux, K3b is a great alternative.
+
 Most RIPs of PS2 Games come in the ISO format, though other formats such as CDVD, IMG, CSO, ZSO, and GZ images exist.
 
 This tutorial will only consider the ISO format though other formats can still be used.

@@ -23,7 +23,8 @@ Just a computer nerd geeking out with anything that ticks, if you get my drift.
 - Memory: 32 GB DDR5-5600 MHz
 - Storage:
     - 1 TB Samsung 990 PRO PCIe 4.0
-    - 1 TB Seagate PS4 Game Drive
+    - 1 TB SPCC M.2 PCIe SSD
+    - 8 TB WDC WD80EAAZ-00BXBB0 Hard Disk
 - PSU: 650 W Corsair RM650
     - 80+ Gold Efficiency
 
